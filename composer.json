@@ -1,0 +1,22 @@
+{
+    "name": "holidaypirates/airbrake-laravel",
+    "description": "Laravel packages to make use of the Airbrake API for storing error messages",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gil",
+            "email": "d.stefanov@holidaypirates.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.*|5.*",
+        "airbrake/php-airbrake": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "HolidayPirates\\AirbrakeLaravel" : "src/"
+        }
+    }
+}
