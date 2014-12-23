@@ -7,7 +7,7 @@ return [
 
     // Will asynchronously send exceptions if true
     'async' => false,
-    
+
     // A list of errors to ignore
     'ignore' => []
 
