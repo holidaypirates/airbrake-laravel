@@ -1,6 +1,7 @@
 {
     "name": "holidaypirates/airbrake-laravel",
     "description": "Laravel packages to make use of the Airbrake API for storing error messages",
+    "keywords": "laravel, airbrake, bug, error",
     "license": "MIT",
     "authors": [
         {
