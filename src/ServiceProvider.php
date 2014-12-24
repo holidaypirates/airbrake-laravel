@@ -2,6 +2,7 @@
 
 use Illuminate\Support;
 use Exception;
+use Airbrake;
 
 class ServiceProvider extends Support\ServiceProvider {
     /**
@@ -18,11 +19,11 @@ class ServiceProvider extends Support\ServiceProvider {
      */
     public function boot()
     {
-        $this->package('holidaypirates/airbrake-laravel');
+        $this->package('holidaypirates/airbrake-laravel', 'airbrake-laravel', realpath(__DIR__));
 
         $app = $this->app;
 
-        if ($app['config']->get('airbrake-laravel::config.enabled' === true))
+        if ($this->isEnabled())
         {
             // Register for exception handling
             $app->error(
@@ -58,7 +59,7 @@ class ServiceProvider extends Support\ServiceProvider {
                     'environmentName' => $app->environment(),
                     'projectRoot' => base_path(),
                     'url' => $app['request']->url(),
-                    'filters' => $app['config']->get('airbrake-laravel::config.ignore')
+                    'filters' => $app['config']->get('airbrake-laravel::config.ignore_exceptions')
                 ];
 
                 $config = new Airbrake\Configuration(
@@ -78,5 +79,18 @@ class ServiceProvider extends Support\ServiceProvider {
     public function provides()
     {
         return ['airbrake'];
+    }
+
+    /**
+     * Check if exceptions should be sent to Airbrake
+     *
+     * @return bool
+     */
+    protected function isEnabled()
+    {
+        $enabled = $this->app['config']->get('airbrake-laravel::config.enabled', false);
+        $ignoredEnvironments = $this->app['config']->get('airbrake-laravel::config.ignore_environments', []);
+
+        return  $enabled and !in_array($this->app->environment(), $ignoredEnvironments);
     }
 }
